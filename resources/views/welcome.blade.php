@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel Social Networ
+                    Laravel Social Network
                 </div>
 
                 <div class="links">
