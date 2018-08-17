@@ -63,22 +63,102 @@ class Algos extends Controller
     }
 
     /**
+    *   link list creator
+    */
+    private function _linkListCreator(){
+
+        $linkedList = new LinkedList("3");
+
+        for($i = 0; $i < 10; $i++){
+
+            $linkedList = new LinkedList((string)$i, $linkedList);
+
+        }
+
+        $linkedList = new LinkedList("9", $linkedList);
+        // $linkedList = new LinkedList("18", $linkedList);
+
+        return $linkedList;
+    }
+
+    /**
     *   2.1 Write a function to remove duplicates
     *       from an unsorted linked list
     */
     private function _removeDups(){
 
-        $testNode = new LinkedList(1);
+        $linkedList = $this->_linkListCreator();
 
-        $result = "titties";
+        $hashMap = [];
+
+
+
+        // loop through the linked list
+        do{
+
+            // if the value is already in the hashmap
+            if(in_array($linkedList->data, $hashMap)){
+
+                // remove that link in the chain
+                $linkedList->prev->next = $linkedList->next;
+                $linkedList->next->prev = $linkedList->prev;
+
+            }
+
+            // add the value to the hashmap
+            array_push($hashMap, $linkedList->data);
+
+            // move on to the next node
+            $linkedList = $linkedList->prev;
+
+        }while(!is_null($linkedList->prev));
+
+        // handle the base case
+        if(in_array($linkedList->data, $hashMap)){
+
+            // echo "<pre>";
+
+            // echo "found the ".$linkedList->data." in the hashmap"; die;
+
+            // remove that link in the chain
+            $linkedList->next->prev = $linkedList->prev;
+            $linkedList = $linkedList->next;
+
+        }
+
+        // echo "<pre>";
+        // print_r($hashMap);
+        // echo "</pre>"; die;
+
+        // check results
+        $this->_echoListData($linkedList);
 
         // print result
-        echo "<pre>{$result}</pre>"; die;
+        // echo "<pre>{$result}</pre>"; die;
         // echo "<pre>";
         // print_r($result);
         // echo "</pre>"; die;
     }
 
+    /**
+    *   echo out linked list data
+    */
+    private function _echoListData($linkedList){
+
+        echo "<pre>";
+
+        // loop through the linked list back to front
+        do{
+
+            echo $linkedList->data . "<br>";
+
+            $linkedList = $linkedList->next;
+
+        }while(!is_null($linkedList));
+
+        echo "</pre>"; die;
+
+    }
 
     /**
      * Output the page

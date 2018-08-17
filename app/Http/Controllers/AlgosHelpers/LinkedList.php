@@ -6,20 +6,18 @@ class LinkedList{
 
 	public $data,
 		   $prev,
-		   $next;
+		   $next = null;
 
-	public function __contruct($data, $prev = null){
+	public function __construct($data, $prev = null){
 
-		$this->prev = $prev;
+		$this->data = $data;
 
-		if(!is_null($this->prev))
+		if(!is_null($prev)){
 
-			$this->prev->setNext($this);
-	}
+			$this->prev = $prev;
 
-	public function setNext($next){
-
-		$this->next = $next;
+			$this->prev->next = $this;
+		}
 	}
 
 }
