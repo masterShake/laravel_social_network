@@ -9,7 +9,7 @@ use App\Http\Controllers\AlgosHelpers\LinkedList;
 class Algos extends Controller
 {
 
-    private $_test_method = "_removeDups";
+    private $_test_method = "_echoListData";
 
     /**
     *   1.1 Impliment an algorithm to determine if
@@ -91,8 +91,6 @@ class Algos extends Controller
 
         $hashMap = [];
 
-
-
         // loop through the linked list
         do{
 
@@ -116,34 +114,48 @@ class Algos extends Controller
         // handle the base case
         if(in_array($linkedList->data, $hashMap)){
 
-            // echo "<pre>";
-
-            // echo "found the ".$linkedList->data." in the hashmap"; die;
-
             // remove that link in the chain
             $linkedList->next->prev = $linkedList->prev;
             $linkedList = $linkedList->next;
 
         }
 
-        // echo "<pre>";
-        // print_r($hashMap);
-        // echo "</pre>"; die;
-
         // check results
         $this->_echoListData($linkedList);
+    }
 
-        // print result
-        // echo "<pre>{$result}</pre>"; die;
-        // echo "<pre>";
-        // print_r($result);
-        // echo "</pre>"; die;
+    /**
+    *   Remove duplicates in linked list recursive
+    */
+    private function _removeDupsR($linkedList = null, $hashMap = []){
+
+            $linkedList = is_null($linkedList) ? $this->_linkListCreator() : $linkedList;
+
+            // if the value is already in the hashmap
+            if(in_array($linkedList->data, $hashMap)){
+
+                // remove that link in the chain
+                if(!is_null($linkedList->prev))
+                    $linkedList->prev->next = $linkedList->next;
+                $linkedList->next->prev = $linkedList->prev;
+
+            }else{
+
+                // add the data to the hashMap
+                $hashMap []= $linkedList->data;
+            }
+
+            return is_null($linkedList->prev) ? 
+                        $linkedList :
+                        $this->_removeDupsR($linkedList->prev, $hashMap);
     }
 
     /**
     *   echo out linked list data
     */
-    private function _echoListData($linkedList){
+    private function _echoListData(){
+
+        $linkedList = $this->_removeDupsR();
 
         echo "<pre>";
 

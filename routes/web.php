@@ -16,3 +16,5 @@ Route::get('/', function () {
 });
 
 Route::get('/algos', 'Algos@show');
+
+Route::get('/binary_trees', 'BinaryAlgos@show');
