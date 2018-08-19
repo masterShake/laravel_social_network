@@ -13,32 +13,32 @@ use App\Http\Controllers\AlgosHelpers\Leaf;
 
 class BinaryAlgos extends Controller{
 
-	private $_test_method = "_generateTree";
+	private $_test_method = "_routeBetweenNodes";
 
 	/**
 	*	Create the biblical family tree
 	*/
-	private function _generateTree(){
+	private function _generateTree($person = "god", $withGod = false){
 
-		$god = new Leaf("God");
-		$issac = new Leaf("Issac");
-		$joseph = new Leaf("Joseph");
-		$ruth = new Leaf("Ruth");
-		$mary = new Leaf("Mary");
-		$sara = new Leaf("Sara");
-		$lot = new Leaf("Lot");
-		$magdalina = new Leaf("Magdalina");
-		$jesus = new Leaf("Jesus");
-		$marc = new Leaf("Marc");
-		$bathsheeba = new Leaf("Bathsheeba");
-		$paul = new Leaf("Paul");
-		$beyonce = new Leaf("Beyonce");
-		$jayZ = new Leaf("Jay-Z");
-		$lilWayne = new Leaf("lil Wayne");
-		$kanye = new Leaf("Kanye");
-		$kim = new Leaf("Kim");
-		$blueIvy = new Leaf("Blue Ivy");
-		$north = new Leaf("North");
+		$god = new Leaf("God", "M");
+		$issac = new Leaf("Issac", "M");
+		$joseph = new Leaf("Joseph", "M");
+		$ruth = new Leaf("Ruth", "F");
+		$mary = new Leaf("Mary", "F");
+		$sara = new Leaf("Sara", "F");
+		$lot = new Leaf("Lot", "M");
+		$magdalina = new Leaf("Magdalina", "F");
+		$jesus = new Leaf("Jesus", "M");
+		$marc = new Leaf("Marc", "M");
+		$bathsheeba = new Leaf("Bathsheeba", "F");
+		$paul = new Leaf("Paul", "M");
+		$beyonce = new Leaf("Beyonce", "F");
+		$jayZ = new Leaf("Jay-Z", "M");
+		$lilWayne = new Leaf("lil Wayne", "M");
+		$kanye = new Leaf("Kanye", "M");
+		$kim = new Leaf("Kim", "F");
+		$blueIvy = new Leaf("Blue Ivy", "F");
+		$north = new Leaf("North", "F");
 
 		// construct the bidirectional tree
 		$god->addChild($issac);
@@ -64,7 +64,9 @@ class BinaryAlgos extends Controller{
 		$kanye->addChild($north);
 		$kim->addChild($north);
 
-		return $god;
+		if($withGod)
+			return [$$person, $god];
+		return $$person;
 
 		// echo "<pre>{$north->parents[1]->name}</pre>"; die;
 		// echo "<pre>";
@@ -73,6 +75,70 @@ class BinaryAlgos extends Controller{
 		// die;
 	}
 
+	/**
+	*	echo all the fathers in North West's lineage
+	*/
+	private function _northDad($person = null){
+
+		// base case
+		if(is_null($person))
+			// start with north
+			$person = $this->_generateTree("north");
+
+		// find the father
+		$father = $person->parents[0]->gender == "M" ? $person->parents[0] : $person->parents[1];
+
+		// Echo the name of the father
+		echo $father->name . "<br><br>";
+
+		// recurse
+		if(count($father->parents) > 0)
+			return $this->_northDad($father);
+		die;
+	}
+
+	/**
+	*	4.1 given a directed graph, find out 
+	*	whether there is a route between two nodes
+	*/
+	private function _routeBetweenNodes($nodeA = null, $nodeB = null){
+
+		// base case, generate nodes
+		if(is_null($nodeA)){
+			$nodeA = $this->_generateTree("north", true);
+			$nodeB = $nodeA[1];
+			$nodeA = $nodeA[0];
+		}
+
+		// if node has no more parents, do nothing
+		if(count($nodeA->parents) > 0)
+
+			// loop through the parents
+			foreach($nodeA->parents as $parent){
+				// if the parent is nodeB
+				if( $parent === $nodeB ){
+					echo "True";
+					return true;
+				}else{
+					return $this->_routeBetweenNodes($parent, $nodeB);
+				}
+			}
+	}
+
+	/**
+	*	4.1 improved!
+	*	Use a breadth first search to find the
+	*	shortest path in a graph
+	*/
+	private function _shortestPath(){
+
+		// create the queues
+		$unvisited = [];
+		$visiting = [];
+		$visited = [];
+
+		
+	}
 
 	public function show(){
 		return view('algos', ['p_load' => $this->{$this->_test_method}()]);

@@ -6,11 +6,15 @@ class Leaf{
 	
 	public $children = [],
 		   $parents = [],
-		   $name = "";
+		   $name = "",
+		   $gender = "",
+		   $visited = false;
 
-	public function __construct($name){
+	public function __construct($name, $gender){
 
 		$this->name = $name;
+
+		$this->gender = $gender;
 	}
 
 	public function addChild($child){
