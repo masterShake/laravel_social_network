@@ -13,7 +13,7 @@ use App\Http\Controllers\AlgosHelpers\Leaf;
 
 class BinaryAlgos extends Controller{
 
-	private $_test_method = "_routeBetweenNodes";
+	private $_test_method = "_pathExists";
 
 	/**
 	*	Create the biblical family tree
@@ -65,7 +65,7 @@ class BinaryAlgos extends Controller{
 		$kim->addChild($north);
 
 		if($withGod)
-			return [$$person, $god];
+			return [$$person, $lilWayne];
 		return $$person;
 
 		// echo "<pre>{$north->parents[1]->name}</pre>"; die;
@@ -127,18 +127,42 @@ class BinaryAlgos extends Controller{
 
 	/**
 	*	4.1 improved!
-	*	Use a breadth first search to find the
-	*	shortest path in a graph
+	*	Use a breadth first search to find if a path
+	*	exists between 2 nodes
 	*/
-	private function _shortestPath(){
+	private function _pathExists(){
 
-		// create the queues
-		$unvisited = [];
-		$visiting = [];
-		$visited = [];
+		// generate the nodes
+		$nodeA = $this->_generateTree("north", true);
+		$nodeB = $nodeA[1];
+		$nodeA = $nodeA[0];
 
-		
+		// create the queue with starting node
+		$unvisited = [$nodeA];
+
+		//while the queue is unempty
+		while( count($unvisited) > 0 ){
+
+			// pop node off the top of the stack
+			$curr = array_shift($unvisited);
+
+			// loop through current node's parents
+			foreach($curr->parents as $parent){
+
+				// if one of the parents is the node we are looking for
+				if($parent === $nodeB){
+					// we win
+					echo "true"; die;
+
+				// otherwise throw that bitch on the stack
+				}else{
+					$unvisited []= $parent;
+				}
+			}
+		}
+		echo "false"; die;
 	}
+
 
 	public function show(){
 		return view('algos', ['p_load' => $this->{$this->_test_method}()]);
