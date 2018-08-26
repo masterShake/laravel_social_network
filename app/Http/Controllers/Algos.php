@@ -179,6 +179,7 @@ class Algos extends Controller
      */
     public function show()
     {
-        return view('algos', ['p_load' => $this->{$this->_test_method}()]);
+        // return view('algos', ['p_load' => $this->{$this->_test_method}()]);
+        return view('algos', ['p_load' => 'jews']);
     }
 }
