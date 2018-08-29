@@ -74,9 +74,23 @@
             return compressedStr;
         }
 
-        const x = "aaabbbbbbbcddee"
+        // const x = "aaabbbbbbbcddee"
 
-        console.log(strCompress(x))
+        // console.log(strCompress(x))
+
+        /**
+        *   ROTATE MATRIX
+        *   + - - - +    + - - - +
+        *   | A B C |    | G D A |
+        *   | D E F | => | H E B |
+        *   | G H I |    | I F C |
+        *   + - - - +    + - - - +
+        *   @return 2D array
+        */
+        function rotateMatrix(matrix){
+
+            //
+        }
 
     </script>
   </body>
