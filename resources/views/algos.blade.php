@@ -31,7 +31,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
-        
         /**
         *   1.6 STRING COMPRESSION
         *       - "aaabbbbbbbccdee" -> "a3b7c2de2"
@@ -89,7 +88,95 @@
         */
         function rotateMatrix(matrix){
 
-            //
+            return false;
+        }
+    </script>
+    <script>
+        /**----------------
+        *
+        *   CHAPTER 2: Linked Lists
+        *
+        -------------------*/
+
+        /**
+        *   Linked List Class
+        */
+        class LinkedList{
+
+            // construct
+            constructor(data, prev){
+
+                this.data = data
+
+                this.next = null;
+
+                if(prev){
+
+                    this.prev = prev
+
+                    this.prev.next = this
+                
+                }else{
+
+                    this.prev = null;
+                }
+            }
+        }
+
+        /**
+        *   Generate a linked listed
+        */
+        function listGenerator(){
+
+            let k = 
+                l = new LinkedList("3")
+
+            for(let i = 0; i < 10; i++)
+
+                l = new LinkedList(i.toString(), l)
+
+            l = new LinkedList("8", l)
+
+            return k;
+        }
+
+        /**
+        *   2.2 Return Kth to Last
+        *       - write an algorithm to return the kth to last
+        *         element of a singly linked list
+        */
+        function kToLast(k, ll){
+
+            // keep track of total number of links
+            let x = 1
+
+            // copy the pointer
+            let n = ll
+
+            // loop through the list once to count # of links
+            while(n.next != null){
+
+                x += 1
+
+                n = n.next
+            }
+
+            // set the index of k
+            k = x - k
+
+            // now that we have length, loop again
+            for(let i = 0; i < k; i++)
+
+                ll = ll.next
+
+            return ll
+        }
+
+        /**
+        *   2.2 Return Kth to Last (Recursive)
+        */
+        function rToLast(){
+            return false;
         }
 
     </script>
