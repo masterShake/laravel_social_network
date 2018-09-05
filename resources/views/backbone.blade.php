@@ -22,8 +22,21 @@
 						<th scope="col">Action</th>
 			    	</tr>
 			  	</thead>
+			  	<tbody> 
+			  		<tr id="blog-list"></tr>
+			  	</tbody>
 			</table>
 		</div>
+
+		<script type="text/template" id="blog-list-template">
+			<td><span class="author"><%= author %></span></td>
+			<td><span class="title"><%= title %></span></td>
+			<td><span class="url"><%= url %></span></td>
+			<td>
+				<button class="btn btn-warning edit-button">Edit</button>
+				<button class="btn btn-danger delete-button">Delete</button>
+			</td>
+		</script>
 
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -34,7 +47,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
 		<script>
 			
-			// Backbone Model
+			/* Backbone Model */
 			var Blog = Backbone.Model.extend({
 				defaults : {
 					author: '',
@@ -43,7 +56,7 @@
 				}
 			})
 
-			// Backbone Collection (an array of models)
+			/* Backbone Collection (an array of models) */
 			var Blogs = Backbone.Collection.extend({})
 
 			// instantiate new blogs
@@ -52,6 +65,43 @@
 
 			// instantiate the collection
 			var books = new Blogs([afd, mk])
+
+			/* DOM elems */
+			// blog list template
+			var blogListItem = document.getElementById('blog-list-template').innerHTML
+
+			// blog list container
+			var blogList = document.getElementById('blog-list')
+
+			/* views */
+			// for 1 book
+			var singleBookView = Backbone.View.extend({
+				model: new Blog(),
+				tagName: 'tr',
+				initialize: function(){
+					this.template = _.template(blogListItem);
+				},
+				render: function(){
+					this.$el.html(
+						this.tempalte(
+							this.model.toJSON()
+						)
+					)
+				}
+			})
+
+			// for all books
+			var allBooksView = Backbone.View.extend({
+				model: books,
+				el: blogList,
+				initialize: function(){
+					this.model.on('add', this.render(), this)
+				},
+				render: function(){
+					this.$el.html('')
+					_.each(this.model.toArray())
+				}
+			})
 
 		</script>
 	</body>
