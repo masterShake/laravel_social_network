@@ -31,6 +31,50 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
+
+        /**
+        *   1.4 check if string is a palendrom
+        *       - 
+        *
+        */
+        function isPalendrome(str){
+
+            // maintain a hashtable
+            let hashTable = {}
+
+            // loop through the string
+            for(let i = 0; i < str.length; i++){
+
+                // if the letter already exists in the table
+                if(hashTable.hasOwnProperty(str[i]))
+
+                    // increment the counter
+                    hashTable[str[i]] += 1
+                
+                // if the letter is not in the table
+                else
+
+                    // add it
+                    hashTable[str[i]] = 1
+                
+            }
+
+            // hashTable must contain no more than 1 odd numbered entry
+            // keep a counter of odd numbers
+            let odds = 0
+
+            // loop through the hashTable
+            for(let x in hashTable)
+
+                // increment "odds" if the value is not divisible by 2
+                odds += hashTable[x] % 2 == 1 ? 1 : 0;
+            
+
+            // console.log('number of odd letters:',odds)
+            return odds > 1 ? false : true;
+
+        }
+
         /**
         *   1.6 STRING COMPRESSION
         *       - "aaabbbbbbbccdee" -> "a3b7c2de2"
